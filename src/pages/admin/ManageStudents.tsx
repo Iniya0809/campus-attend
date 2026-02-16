@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, Plus, Trash2, Mail, Phone } from "lucide-react";
+import { Search, Plus, Trash2, Users } from "lucide-react";
 import { students as allStudents, departments, sections, getStudentAttendancePercent } from "@/lib/data";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,9 +29,16 @@ export default function ManageStudents() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Manage Students</h1>
-          <p className="text-sm text-muted-foreground">{filtered.length} students found</p>
+        <div className="page-header">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-lg bg-accent/10">
+              <Users className="w-5 h-5 text-accent" />
+            </div>
+            <div>
+              <h1>Manage Students</h1>
+              <p>{filtered.length} students found</p>
+            </div>
+          </div>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           <div className="relative">
@@ -47,7 +54,7 @@ export default function ManageStudents() {
           </Select>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="gap-2 bg-accent hover:bg-accent/90 text-accent-foreground"><Plus className="w-4 h-4" />Add Student</Button>
+              <Button className="gap-2 bg-accent hover:bg-accent/90 text-accent-foreground shadow-md shadow-accent/20"><Plus className="w-4 h-4" />Add Student</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader><DialogTitle>Add New Student</DialogTitle></DialogHeader>
@@ -83,12 +90,12 @@ export default function ManageStudents() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/30">
-                <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Student</th>
-                <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase hidden md:table-cell">Roll No.</th>
-                <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase hidden lg:table-cell">Department</th>
-                <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase hidden lg:table-cell">Section</th>
-                <th className="text-center py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Attendance</th>
-                <th className="text-center py-3 px-4 text-xs font-semibold text-muted-foreground uppercase">Actions</th>
+                <th className="text-left py-3.5 px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Student</th>
+                <th className="text-left py-3.5 px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-wider hidden md:table-cell">Roll No.</th>
+                <th className="text-left py-3.5 px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-wider hidden lg:table-cell">Department</th>
+                <th className="text-left py-3.5 px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-wider hidden lg:table-cell">Section</th>
+                <th className="text-center py-3.5 px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Attendance</th>
+                <th className="text-center py-3.5 px-4 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -98,16 +105,16 @@ export default function ManageStudents() {
                   <tr key={student.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors animate-fade-in" style={{ animationDelay: `${i * 15}ms` }}>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">{student.avatar}</div>
+                        <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center text-xs font-bold text-accent ring-1 ring-accent/20">{student.avatar}</div>
                         <div>
-                          <p className="font-medium text-card-foreground">{student.name}</p>
-                          <p className="text-xs text-muted-foreground">{student.email}</p>
+                          <p className="font-semibold text-card-foreground text-[13px]">{student.name}</p>
+                          <p className="text-[11px] text-muted-foreground">{student.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-3 px-4 font-mono text-muted-foreground hidden md:table-cell">{student.rollNumber}</td>
-                    <td className="py-3 px-4 text-muted-foreground hidden lg:table-cell">{student.department}</td>
-                    <td className="py-3 px-4 text-muted-foreground hidden lg:table-cell">{student.section}</td>
+                    <td className="py-3 px-4 font-mono text-xs text-muted-foreground hidden md:table-cell">{student.rollNumber}</td>
+                    <td className="py-3 px-4 text-muted-foreground text-[13px] hidden lg:table-cell">{student.department}</td>
+                    <td className="py-3 px-4 text-muted-foreground text-[13px] hidden lg:table-cell">{student.section}</td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2 justify-center">
                         <Progress value={percent} className="h-1.5 w-16" />
@@ -115,7 +122,7 @@ export default function ManageStudents() {
                       </div>
                     </td>
                     <td className="py-3 px-4 text-center">
-                      <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => toast({ title: "Student Removed", description: `${student.name} has been removed.` })}>
+                      <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10 h-8 w-8" onClick={() => toast({ title: "Student Removed", description: `${student.name} has been removed.` })}>
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </td>
